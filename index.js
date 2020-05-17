@@ -25,12 +25,14 @@ const execCrawler = (findOrigin, originXPath) => {
                     }
                     xPath = xPathTags.reverse().join("").trim();
                     xPath = xPath.substring(0, xPath.length - 1).trim();
+                    // Print xPath when the element is allocated.
                     console.log(xPath);
+                    // Print element attributes to compare changes.
+                    console.log(`Element attributes: ${JSON.stringify(element.attribs)}`)
                 } else {
                     console.log("Tag was not found");
                 }
                 if(!stop) {
-                    console.log({element})
                     stop = true;
                     // Call function recursivelly to reuse code.
                     execCrawler(false, xPath)
