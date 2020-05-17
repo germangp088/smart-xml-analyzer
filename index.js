@@ -10,6 +10,8 @@ const selector = process.env.SELECTOR || "#make-everything-ok-button";
 //Flag to stop the recursive execution.
 let stop = false;
 
+let originalElement;
+
 const execCrawler = (findOrigin, originXPath) => {
 
     const crawler = new Crawler({
@@ -21,7 +23,13 @@ const execCrawler = (findOrigin, originXPath) => {
                 let xPath
                 const $ = res.$;
                 let xPathTags = [];
+
                 const element = originXPath ? $(originXPath)['0'] : $(selector)['0']
+
+                if(findOrigin){
+                    originalElement = element
+                }
+
                 if(element) {
                     xPathTags.push(`${element.name} > `);
                     let parent = element.parent
@@ -43,6 +51,31 @@ const execCrawler = (findOrigin, originXPath) => {
                     stop = true;
                     // Call function recursivelly to reuse code.
                     execCrawler(false, xPath)
+                } else {
+                    const findDifferences = (originalElementStr, elementStr) =>{
+                        const originalElement = JSON.parse(originalElementStr);
+                        const element = JSON.parse(elementStr);
+
+                        const differences = [];
+
+                        const addDiff = (el1, el2, attr) => {
+                            if(el1[attr] !== el2[attr]) {
+                                differences.push(`Attibute: ${attr}, Value: ${el2[attr]}`);
+
+                            }
+                        }
+
+                        addDiff(originalElement, element, "class");
+                        addDiff(originalElement, element, "title");
+                        addDiff(originalElement, element, "rel");
+                        addDiff(originalElement, element, "href");
+                        addDiff(originalElement, element, "onclick");
+
+                        return differences;
+                    }
+                    
+                    const differences = findDifferences(JSON.stringify(originalElement.attribs), JSON.stringify(element.attribs));
+                    console.log(`Differences: ${differences}`)
                 }
             }
             done();
