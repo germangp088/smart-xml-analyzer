@@ -1,7 +1,13 @@
+if(!process.env.INPUT_OTHER_FILE) {
+    throw new Error("You must especify a INPUT_OTHER_FILE")
+}
+
 const Crawler = require("crawler");
 
+// If a selector is not provided it will take a default.
 const selector = process.env.SELECTOR || "#make-everything-ok-button";
 
+//Flag to stop the recursive execution.
 let stop = false;
 
 const execCrawler = (findOrigin, originXPath) => {
@@ -23,6 +29,7 @@ const execCrawler = (findOrigin, originXPath) => {
                         xPathTags.push(`${parent.name} > `);
                         parent = parent.parent;
                     }
+                    // Parse the output string as asked.
                     xPath = xPathTags.reverse().join("").trim();
                     xPath = xPath.substring(0, xPath.length - 1).trim();
                     // Print xPath when the element is allocated.
