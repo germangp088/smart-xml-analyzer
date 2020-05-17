@@ -1,0 +1,24 @@
+{
+  "name": "smart-xml-analyzer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js $INPUT_ORIGIN_FILE $INPUT_OTHER_FILE $SELECTOR",
+    "serve": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/germangp088/smart-xml-analyzer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/germangp088/smart-xml-analyzer/issues"
+  },
+  "homepage": "https://github.com/germangp088/smart-xml-analyzer#readme",
+  "dependencies": {
+    "crawler": "^1.2.1",
+    "http-server": "^0.12.3"
+  }
+}
